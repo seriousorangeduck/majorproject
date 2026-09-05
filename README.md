@@ -1,15 +1,17 @@
-# Newspaper Vending Machine FSM — Design & Verification
+# Design & Verification of Newspaper Vending Machine FSM
 
-Digital design project: the controller for a newspaper vending machine, designed as a finite state machine, implemented in Verilog, and verified with a self-checking testbench. **All 7 tests pass.**
+The controller for a newspaper vending machine is a digital design project that was created as a finite state machine, implemented in Verilog, and validated using a self-checking testbench. Each of the seven tests is successful.
 
-**Live simulation:** [[EDA Playground — click Run]](https://edaplayground.com/x/Nkkd)  ← paste your shareable link here
+Live simulation: https://edaplayground.com/x/Nkkd
 
-## Specification
+## Details
+The cost of a newspaper is fifteen cents.
 
-- Newspaper price: **15¢**
-- Accepted coins: **nickel (N = 5¢)** and **dime (D = 10¢)**
-- A newspaper is dispensed when credit reaches **≥ 15¢**
-- **No change is returned** — overpayment is retained by the machine
+Coins that are accepted include nickel (N = 5¢) and dime (D = 10¢).
+
+When credit reaches > 15¢, a newspaper is distributed.
+
+The machine keeps the excess money; no change is given back.
 
 | Sequence | Total | Result |
 |----------|-------|--------|
