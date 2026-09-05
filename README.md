@@ -20,17 +20,11 @@ The machine keeps the excess money; no change is given back.
 | N, N, N  | 15¢   |  Dispense |
 | D, D     | 20¢   |  Dispense (extra 5¢ retained) |
 
-## Design highlights
-
-- **3 states (0¢ / 5¢ / 10¢), provably minimal** — any coin that brings credit to
-  15¢ or more ends the transaction immediately, so the only credit values ever
-  stored are {0, 5, 10}. All three states are pairwise distinguishable.
-- The **retained 5¢ after D+D needs no extra state** — it never influences
-  future behavior, so every new transaction provably starts at 0¢.
-- **Mealy output** `OPEN` — asserts in the same clock cycle as the qualifying
-  coin (the conditional output box on the ASM chart).
-- Asynchronous active-high reset; the unused encoding `2'b11`
-  **self-corrects to S0** in one cycle.
+## Highlights of design
+- **3 states (0¢ / 5¢ / 10¢), provably minimal** – Any coin that increases credit to 15¢ or more instantly terminates the transaction, so {0, 5, 10} are the only credit values ever recorded. Each of the three states can be distinguished in pairs.
+Every new transaction provably begins at 0¢ because the **retained 5¢ after D+D needs no extra state** never affects future behavior.
+The qualifying coin (the conditional output box on the ASM chart) is asserted in the same clock cycle as the **Mealy output** `OPEN`.The unused encoding is `2'b11`; asynchronous active-high reset
+In a single cycle, **self-corrects to S0**.
 
 ## Files
 
