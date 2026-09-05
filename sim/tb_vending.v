@@ -1,18 +1,12 @@
 // Every coin's OPEN value is compared against the expected value;
 // the testbench prints PASS/FAIL per check and a final verdict.
-
 `timescale 1ns/1ns
 module tb_vending;
-
     reg  clk = 0, rst = 1, N = 0, D = 0;
     wire OPEN;
     integer errors = 0;
-
     vending_machine uut (.clk(clk), .rst(rst), .N(N), .D(D), .OPEN(OPEN));
-
-    always #5 clk = ~clk;    // 10 ns period
-
-    // Insert one coin for exactly one clock; auto-check OPEN (Mealy)
+    always #5 clk = ~clk;
     task coin(input n_i, input d_i, input exp_open);
         begin
             @(negedge clk); N = n_i; D = d_i;
@@ -37,7 +31,6 @@ module tb_vending;
         $dumpfile("vending.vcd");
         $dumpvars(0, tb_vending);
 
-        // ---- Reset ----
         idle(2); rst = 0; idle(1);
 
         $display("=== T1: N, N, N = 15c ===");
@@ -56,14 +49,14 @@ module tb_vending;
         coin(1,0,0); coin(1,0,0); coin(0,1,1);
 
         $display("=== T6: fresh transaction after D, D ===");
-        coin(0,1,0); coin(0,1,1);   // D,D -> dispense, 5c retained
-        coin(1,0,0); coin(0,1,1);   // N,D -> dispense again => proves credit reset to 0
+        coin(0,1,0); coin(0,1,1);
+        coin(1,0,0); coin(0,1,1);
 
         $display("=== T7: mid-transaction reset recovery ===");
-        coin(1,0,0);                          // go to S1 (5c)
-        @(negedge clk); rst = 1;              // reset mid-transaction
+        coin(1,0,0);
+        @(negedge clk); rst = 1;
         @(negedge clk); rst = 0; idle(1);
-        coin(0,1,0); coin(1,0,1);             // D,N from S0 -> dispense
+        coin(0,1,0); coin(1,0,1);
 
         if (errors == 0) $display(">>> ALL TESTS PASSED <<<");
         else             $display(">>> %0d CHECK(S) FAILED <<<", errors);
